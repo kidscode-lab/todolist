@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# Editors/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Env & logs
+.env
+*.log
+
+# Office temp files (PowerPoint/Word)
+~$*.pptx
+~$*.ppt
+~$*.docx
+~$*.xlsx
+
+# Node (if you add a small web demo later)
+node_modules/

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>To-Do List</h1>
+        <button id="openModal"><span class="material-icons">add</span> New Task</button>
+    </header>
+
+    <!-- Task Input Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Task</h2>
+            <form id="taskForm" method="POST" action="/add">
+                <label for="task">Task:</label>
+                <input type="text" id="task" name="task" required>
+
+                <label for="expiration_date">Due:</label>
+                <input type="date" id="expiration_date" name="expiration_date" required>
+
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <main>
+        <!-- Pending Tasks -->
+        <section class="task-section">
+            <h2>Pending Tasks</h2>
+            <div class="task-container">
+                {% for task in tasks if not task.done %}
+                <div class="task-card">
+                    <p>{{ task.task }}</p>
+                    <p class="due-date">Due: {{ task.expiration_date }}</p>
+                    <div class="task-actions">
+                        <a href="/done/{{ task.task }}">
+                            <span class="material-icons" style="color: green;">check_circle</span>
+                        </a>
+                        <a href="/delete/{{ task.task }}">
+                            <span class="material-icons" style="color: red;">delete</span>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Completed Tasks -->
+        <section class="task-section">
+            <h2>Completed Tasks</h2>
+            <div class="task-container">
+                {% for task in tasks if task.done %}
+                <div class="task-card completed">
+                    <p>{{ task.task }}</p>
+                    <p class="due-date">Due: {{ task.expiration_date }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+</body>
+</html>

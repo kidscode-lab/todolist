@@ -74,7 +74,7 @@ def delete_task(task_id: int):
 # in app.py
 if __name__ == "__main__":
     import os
-    port = int(os.environ.get("PORT", 5055))  # 5055 for local; product services sets PORT for you
+    port = int(os.environ.get("PORT", 5055))  # 5055 for local; product services sets PORT
     app.run(host="127.0.0.1", port=port, debug=True, use_reloader=False)
 
 

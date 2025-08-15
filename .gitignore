@@ -11,6 +11,7 @@ venv/
 .idea/
 .DS_Store
 Thumbs.db
+*.bat
 
 # Env & logs
 .env
@@ -24,3 +25,6 @@ Thumbs.db
 
 # Node (if you add a small web demo later)
 node_modules/
+
+# app specific
+data

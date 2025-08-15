@@ -1,26 +1,12 @@
 {
-  "next_id": 4,
+  "next_id": 8,
   "tasks": [
     {
-      "id": 1,
-      "title": "English Exam",
-      "due_date": "2025-08-14",
-      "done": true,
-      "created_at": "2025-08-15T02:01:36.422054Z"
-    },
-    {
-      "id": 2,
-      "title": "Math Exam",
-      "due_date": "2025-08-19",
-      "done": true,
-      "created_at": "2025-08-15T02:10:42.449236Z"
-    },
-    {
-      "id": 3,
-      "title": "Sci Exam",
-      "due_date": "2025-08-19",
+      "id": 6,
+      "title": "New Task",
+      "due_date": "2025-09-01",
       "done": false,
-      "created_at": "2025-08-15T02:20:04.879269Z"
+      "created_at": "2025-08-15T03:20:32.027781Z"
     }
   ]
 }

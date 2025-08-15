@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do List</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <!-- App CSS & JS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
     <!-- Header Section -->
@@ -17,16 +19,17 @@
     </header>
 
     <!-- Task Input Modal -->
-    <div id="taskModal" class="modal">
+    <div id="taskModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Add New Task</h2>
-            <form id="taskForm" method="POST" action="/add">
-                <label for="task">Task:</label>
-                <input type="text" id="task" name="task" required>
+            <span class="close" aria-label="Close">&times;</span>
+            <h2 id="modalTitle">Add New Task</h2>
+            <form id="taskForm" method="POST"
+                  action="{{ url_for('add', class_code=request.args.get('class_code'), student_id=request.args.get('student_id')) }}">
+                <label for="task">Task</label>
+                <input type="text" id="task" name="task" placeholder="e.g. Finish worksheet" required />
 
-                <label for="expiration_date">Due:</label>
-                <input type="date" id="expiration_date" name="expiration_date" required>
+                <label for="expiration_date">Due</label>
+                <input type="date" id="expiration_date" name="expiration_date" required />
 
                 <button type="submit">Save</button>
             </form>
@@ -35,35 +38,43 @@
 
     <main>
         <!-- Pending Tasks -->
-        <section class="task-section">
-            <h2>Pending Tasks</h2>
+        <section class="task-section" aria-labelledby="pendingTitle">
+            <h2 id="pendingTitle">Pending Tasks</h2>
             <div class="task-container">
                 {% for task in tasks if not task.done %}
                 <div class="task-card">
-                    <p>{{ task.task }}</p>
-                    <p class="due-date">Due: {{ task.expiration_date }}</p>
+                    <p>{{ task.title }}</p>
+                    <p class="due-date">Due: {{ task.due_date or "-" }}</p>
                     <div class="task-actions">
-                        <a href="/done/{{ task.task }}">
-                            <span class="material-icons" style="color: green;">check_circle</span>
+                        <a class="icon-button"
+                           href="{{ url_for('done', task_id=task.id, class_code=request.args.get('class_code'), student_id=request.args.get('student_id')) }}"
+                           title="Mark done">
+                            <span class="material-icons" style="color: var(--accent);">check_circle</span>
                         </a>
-                        <a href="/delete/{{ task.task }}">
-                            <span class="material-icons" style="color: red;">delete</span>
+                        <a class="icon-button"
+                           href="{{ url_for('delete', task_id=task.id, class_code=request.args.get('class_code'), student_id=request.args.get('student_id')) }}"
+                           title="Delete">
+                            <span class="material-icons" style="color: var(--danger);">delete</span>
                         </a>
                     </div>
                 </div>
+                {% else %}
+                <p style="color:var(--muted);">No pending tasks.</p>
                 {% endfor %}
             </div>
         </section>
 
         <!-- Completed Tasks -->
-        <section class="task-section">
-            <h2>Completed Tasks</h2>
+        <section class="task-section" aria-labelledby="completedTitle">
+            <h2 id="completedTitle">Completed Tasks</h2>
             <div class="task-container">
                 {% for task in tasks if task.done %}
                 <div class="task-card completed">
-                    <p>{{ task.task }}</p>
-                    <p class="due-date">Due: {{ task.expiration_date }}</p>
+                    <p>{{ task.title }}</p>
+                    <p class="due-date">Due: {{ task.due_date or "-" }}</p>
                 </div>
+                {% else %}
+                <p style="color:var(--muted);">No completed tasks yet.</p>
                 {% endfor %}
             </div>
         </section>

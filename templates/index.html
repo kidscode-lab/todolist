@@ -18,6 +18,26 @@
         <button id="openModal"><span class="material-icons">add</span> New Task</button>
     </header>
 
+    <!-- Identity Bar -->
+    <form id="identityForm" method="GET" action="/" class="identity-bar">
+    <label for="cc">Class Code</label>
+    <input id="cc" name="class_code"
+            value="{{ request.args.get('class_code','') }}"
+            placeholder="e.g. demo" required>
+
+    <label for="sid">Student ID</label>
+    <input id="sid" name="student_id"
+            value="{{ request.args.get('student_id','') }}"
+            placeholder="e.g. student1" required>
+
+    <button type="submit" class="small">Load</button>
+
+    <!-- Helpful hint when missing -->
+    {% if not request.args.get('class_code') or not request.args.get('student_id') %}
+        <span class="hint">Enter values and click Load to see your tasks.</span>
+    {% endif %}
+    </form>
+
     <!-- Task Input Modal -->
     <div id="taskModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-content">

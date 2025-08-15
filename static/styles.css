@@ -128,3 +128,37 @@ header button .material-icons {
     float: right;
     cursor: pointer;
 }
+
+.identity-bar {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .6rem 1rem;
+  margin: .6rem 1rem 0 1rem;
+  background: var(--card, #a8d0e6);
+  border-radius: 10px;
+}
+
+.identity-bar label {
+  font-size: .9rem;
+  color: var(--muted, #0b0e12);
+}
+
+.identity-bar input {
+  padding: .45rem .6rem;
+  border: 1px solid var(--border, #2a2f36);
+  border-radius: 8px;
+  background: var(--surface, #e8eaed);
+  color: var(--text, #0b0e12);
+  min-width: 10rem;
+}
+
+.identity-bar .small {
+  padding: .5rem .9rem;
+}
+
+.identity-bar .hint {
+  margin-left: auto;
+  font-size: .85rem;
+  color: var(--muted, #0b0e12);
+}

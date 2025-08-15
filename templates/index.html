@@ -23,16 +23,21 @@
         <div class="modal-content">
             <span class="close" aria-label="Close">&times;</span>
             <h2 id="modalTitle">Add New Task</h2>
-            <form id="taskForm" method="POST"
-                  action="{{ url_for('add', class_code=request.args.get('class_code'), student_id=request.args.get('student_id')) }}">
+                <form id="taskForm" method="POST"
+                    action="{{ url_for('add', class_code=request.args.get('class_code'), student_id=request.args.get('student_id')) }}">
+
+                <!-- keep these two hidden fields -->
+                <input type="hidden" name="class_code" value="{{ request.args.get('class_code', 'demo') }}">
+                <input type="hidden" name="student_id" value="{{ request.args.get('student_id', 'student1') }}">
+
                 <label for="task">Task</label>
-                <input type="text" id="task" name="task" placeholder="e.g. Finish worksheet" required />
+                <input type="text" id="task" name="task" required>
 
                 <label for="expiration_date">Due</label>
-                <input type="date" id="expiration_date" name="expiration_date" required />
+                <input type="date" id="expiration_date" name="expiration_date" required>
 
                 <button type="submit">Save</button>
-            </form>
+                </form>
         </div>
     </div>
 

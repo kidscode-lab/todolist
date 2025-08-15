@@ -11,9 +11,18 @@ CORS(app)
 API_KEY = os.environ.get("API_KEY", "")  # optional, set in Azure
 
 def _ids():
-    """Read class_code & student_id from query or headers; fall back to demo values for class use."""
-    class_code = request.args.get("class_code") or request.headers.get("X-Class-Code") or "demo"
-    student_id = request.args.get("student_id") or request.headers.get("X-Student-Id") or "student1"
+    class_code = (
+        request.form.get("class_code")
+        or request.args.get("class_code")
+        or request.headers.get("X-Class-Code")
+        or "demo"
+    )
+    student_id = (
+        request.form.get("student_id")
+        or request.args.get("student_id")
+        or request.headers.get("X-Student-Id")
+        or "student1"
+    )
     return class_code, student_id
 
 @app.route("/", methods=["GET"])
@@ -30,19 +39,19 @@ def add():
     due = request.form.get("expiration_date") or None  # HTML date input gives "YYYY-MM-DD" or ""
     if title:
         storage.add_task(class_code, student_id, title, due)
-    return redirect(url_for("home", class_code=class_code, student_id=student_id))
+    return redirect(url_for("index", class_code=class_code, student_id=student_id))
 
 @app.route("/done/<int:task_id>", methods=["GET"])
 def done(task_id):
     class_code, student_id = _ids()
     storage.update_task(class_code, student_id, task_id, {"done": True})
-    return redirect(url_for("home", class_code=class_code, student_id=student_id))
+    return redirect(url_for("index", class_code=class_code, student_id=student_id))
 
 @app.route("/delete/<int:task_id>", methods=["GET"])
 def delete(task_id):
     class_code, student_id = _ids()
     storage.delete_task(class_code, student_id, task_id)
-    return redirect(url_for("home", class_code=class_code, student_id=student_id))
+    return redirect(url_for("index", class_code=class_code, student_id=student_id))
 
 def require_key():
     # Only protect write operations; keep GET open for your class demo

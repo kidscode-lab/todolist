@@ -30,19 +30,19 @@ def add():
     due = request.form.get("expiration_date") or None  # HTML date input gives "YYYY-MM-DD" or ""
     if title:
         storage.add_task(class_code, student_id, title, due)
-    return redirect(url_for("index", class_code=class_code, student_id=student_id))
+    return redirect(url_for("home", class_code=class_code, student_id=student_id))
 
 @app.route("/done/<int:task_id>", methods=["GET"])
 def done(task_id):
     class_code, student_id = _ids()
     storage.update_task(class_code, student_id, task_id, {"done": True})
-    return redirect(url_for("index", class_code=class_code, student_id=student_id))
+    return redirect(url_for("home", class_code=class_code, student_id=student_id))
 
 @app.route("/delete/<int:task_id>", methods=["GET"])
 def delete(task_id):
     class_code, student_id = _ids()
     storage.delete_task(class_code, student_id, task_id)
-    return redirect(url_for("index", class_code=class_code, student_id=student_id))
+    return redirect(url_for("home", class_code=class_code, student_id=student_id))
 
 def require_key():
     # Only protect write operations; keep GET open for your class demo
@@ -64,11 +64,6 @@ def extract_ns():
         abort(400, description="class_code and student_id are required (query or headers).")
     return class_code, student_id
 
-
-@app.route("/")
-def index():
-    tasks = storage.get_all_tasks()
-    return render_template("index.html", tasks=tasks)
 
 @app.get("/api/health")
 def health():
